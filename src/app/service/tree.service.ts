@@ -1,5 +1,5 @@
-import { TreeData } from './../interface/tree-data';
-import { Injectable } from '@angular/core';
+import { RawTreeData } from './../interface/raw-tree-data';
+import { Guid } from "guid-typescript";
 import { BehaviorSubject } from 'rxjs';
 import { Tree } from '../interface/tree';
 
@@ -12,15 +12,15 @@ export class TreeService {
     return this.dataChangeSubject$.value;
   }
 
-  constructor(treeData: any) {
-    this.initialize(treeData);
+  constructor(treeDataList: RawTreeData[]) {
+    this.initialize(treeDataList);
   }
 
-  initialize(treeData: TreeData) {
+  initialize(treeDataList: RawTreeData[]) {
     // Build the tree nodes from Json object. The result is a list of `Tree` with nested
     //     file node as children.
-    const data = this.buildFileTree(treeData, 0);
-
+    const data = this.buildFileTree(treeDataList, 0, null);
+    console.log('initialize tree', data);
     // Notify the change.
     this.dataChangeSubject$.next(data);
   }
@@ -29,41 +29,47 @@ export class TreeService {
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `Tree`.
    */
-  buildFileTree(treeData: TreeData, level: number): Tree[] {
-    Object.keys(treeData).forEach((key) => {
-      const value = treeData[key];
-    })
-    return Object.keys(treeData).reduce<Tree[]>((accumulator, key) => {
-      const value = treeData[key];
-      const node: Tree = {} as Tree;
-      node.item = key;
+  buildFileTree(treeDataList: RawTreeData[], level: number, parentGuid: string | null): Tree[] {
 
-      if (value != null) {
-        if (typeof value === 'object') {
-          node.children = this.buildFileTree(value, level + 1);
-        } else {
-          node.item = value;
-        }
-      }
+    const treeList: Tree[] = [];
+    treeDataList.filter(x => x.ParentGuid === parentGuid)
+      .forEach(x => {
+        const childrenTreeList: Tree[] = this.buildFileTree(treeDataList, level + 1, x.NodeGuid);
+        const tree: Tree = {
+          name: x.NodeName,
+          type: x.ServiceType,
+          guid: x.NodeGuid,
+          children: childrenTreeList.length === 0 ? null : childrenTreeList
+        };
+        treeList.push(tree);
+      });
 
-      return accumulator.concat(node);
-    }, []);
+    return treeList;
+
   }
 
   /** Add an item to to-do list */
-  insertItem(parent: Tree, name: string): Tree {
+  insertItem(parent: Tree, name: string, type: number): Tree {
     if (!parent.children) {
       parent.children = [];
     }
-    const newItem = { item: name } as Tree;
+    const newItem = {
+      name,
+      type,
+      guid: Guid.create().toString()
+    } as Tree;
     parent.children.push(newItem);
     this.dataChangeSubject$.next(this.data);
     return newItem;
   }
 
-  insertItemAbove(node: Tree, name: string): Tree {
+  insertItemAbove(node: Tree, name: string, type: number): Tree {
     const parentNode = this.getParentFromNodes(node);
-    const newItem = { item: name } as Tree;
+    const newItem = {
+      name,
+      type,
+      guid: Guid.create().toString()
+    } as Tree;
     if (parentNode) {
       if (!parentNode.children) {
         parentNode.children = [];
@@ -76,9 +82,13 @@ export class TreeService {
     return newItem;
   }
 
-  insertItemBelow(node: Tree, name: string): Tree {
+  insertItemBelow(node: Tree, name: string, type: number): Tree {
     const parentNode = this.getParentFromNodes(node);
-    const newItem = { item: name } as Tree;
+    const newItem = {
+      name,
+      type,
+      guid: Guid.create().toString()
+    } as Tree;
     if (parentNode != null) {
       if (!parentNode.children) {
         parentNode.children = [];
@@ -124,7 +134,7 @@ export class TreeService {
   }
 
   updateItem(node: Tree, name: string) {
-    node.item = name;
+    node.name = name;
     this.dataChangeSubject$.next(this.data);
   }
 
@@ -134,7 +144,7 @@ export class TreeService {
   }
 
   copyPasteItem(from: Tree, to: Tree): Tree {
-    const newItem = this.insertItem(to, from.item);
+    const newItem = this.insertItem(to, from.name, from.type);
     if (from.children) {
       from.children.forEach(child => {
         this.copyPasteItem(child, newItem);
@@ -144,7 +154,7 @@ export class TreeService {
   }
 
   copyPasteItemAbove(from: Tree, to: Tree): Tree {
-    const newItem = this.insertItemAbove(to, from.item);
+    const newItem = this.insertItemAbove(to, from.name, from.type);
     if (from.children) {
       from.children.forEach(child => {
         this.copyPasteItem(child, newItem);
@@ -154,7 +164,7 @@ export class TreeService {
   }
 
   copyPasteItemBelow(from: Tree, to: Tree): Tree {
-    const newItem = this.insertItemBelow(to, from.item);
+    const newItem = this.insertItemBelow(to, from.name, from.type);
     if (from.children) {
       from.children.forEach(child => {
         this.copyPasteItem(child, newItem);

@@ -1,9 +1,11 @@
+import { RawTreeData } from './../interface/raw-tree-data';
 import { TreeService } from './../service/tree.service';
 import { FlatTree, Tree } from './../interface/tree';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   templateUrl: './tree-demo.component.html',
@@ -40,29 +42,15 @@ export class TreeDemoComponent implements OnInit {
   dragNodeExpandOverNode: any;
   dragNodeExpandOverTime: number = 0;
   dragNodeExpandOverArea: number = 0;
-  treeService = new TreeService({});
+  treeService = new TreeService([]);
 
-  constructor() {
+  constructor(
+    private http: HttpClient,
+  ) {
   }
 
   ngOnInit(): void {
-    const treeData = {
-      Groceries: {
-        'Almond Meal flour': null,
-        'Organic eggs': null,
-        'Protein Powder': null,
-        Fruits: {
-          Apple: { '123': null, },
-          Berries: { 'Blueberry': null, 'Raspberry': null, },
-          Orange: null
-        }
-      },
-      Reminders: {
-        'Cook dinner': null,
-        'Read the Material Design spec': null,
-        'Upgrade Application to Angular': null
-      }
-    };
+
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this.getLevel,
@@ -80,9 +68,20 @@ export class TreeDemoComponent implements OnInit {
 
     this.treeService.dataChange$.subscribe(data => {
       this.dataSource.data = [];
-      this.dataSource.data = data;
+      this.dataSource.data = data || [];
     });
-    this.treeService.initialize(treeData);
+    // 取得assets的測試用json
+    this.http.get<RawTreeData[]>('/assets/json/data.json')
+      .subscribe({
+        next: (res) => {
+          console.log('data', res);
+          this.treeService.initialize(res);
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      })
+
   }
 
   getLevel = (node: FlatTree) => node.level;
@@ -94,18 +93,18 @@ export class TreeDemoComponent implements OnInit {
   hasChild = (_: number, _nodeData: FlatTree) => _nodeData.expandable;
 
   hasNoContent = (_: number, _nodeData: FlatTree) =>
-    _nodeData.item === '';
+    _nodeData.name === '';
 
-  /**
-   * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
-   */
+  // /**
+  //  * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
+  //  */
   transformer = (node: Tree, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
     const flatNode =
-      existingNode && existingNode.item === node.item
+      existingNode && existingNode.name === node.name
         ? existingNode
         : {} as FlatTree;
-    flatNode.item = node.item;
+    flatNode.name = node.name;
     flatNode.level = level;
     flatNode.expandable = node.children && node.children.length > 0 || false;
     this.flatNodeMap.set(flatNode, node);
@@ -113,7 +112,7 @@ export class TreeDemoComponent implements OnInit {
     return flatNode;
   };
 
-  /** Whether all the descendants of the node are selected */
+  // /** Whether all the descendants of the node are selected */
   descendantsAllSelected(node: FlatTree): boolean {
     const descendants = this.treeControl.getDescendants(node);
     return descendants.every(child =>
@@ -121,7 +120,7 @@ export class TreeDemoComponent implements OnInit {
     );
   }
 
-  /** Whether part of the descendants are selected */
+  // /** Whether part of the descendants are selected */
   descendantsPartiallySelected(node: FlatTree): boolean {
     const descendants = this.treeControl.getDescendants(node);
     const result = descendants.some(child =>
@@ -130,7 +129,7 @@ export class TreeDemoComponent implements OnInit {
     return result && !this.descendantsAllSelected(node);
   }
 
-  /** Toggle the to-do item selection. Select/deselect all the descendants node */
+  // /** Toggle the to-do item selection. Select/deselect all the descendants node */
   todoItemSelectionToggle(node: FlatTree): void {
     this.checklistSelection.toggle(node);
     const descendants = this.treeControl.getDescendants(node);
@@ -139,14 +138,14 @@ export class TreeDemoComponent implements OnInit {
       : this.checklistSelection.deselect(...descendants);
   }
 
-  /** Select the category so we can insert the new item. */
-  addNewItem(node: FlatTree) {
+  // /** Select the category so we can insert the new item. */
+  addNewItem(node: FlatTree, type: number = 1) {
     const parentNode = this.flatNodeMap.get(node);
-    this.treeService.insertItem(parentNode!, '');
+    this.treeService.insertItem(parentNode!, 'NEW NODE', type);
     this.treeControl.expand(node);
   }
 
-  /** Save the node to database */
+  // /** Save the node to database */
   saveNode(node: FlatTree, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node);
     this.treeService.updateItem(nestedNode!, itemValue);

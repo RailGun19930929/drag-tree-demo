@@ -1,13 +1,15 @@
 export interface Tree {
   children: Tree[] | null;
-  item: string;
-  type: 'category' | 'data';
+  name: string;
+  type: number;
+  guid: string;
 }
 
 export interface FlatTree {
   expandable: boolean;
-  item: string;
+  name: string;
   level: number;
-  type: 'category' | 'data';
+  type: number;
+  guid: string;
 }
 
