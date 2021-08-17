@@ -4,6 +4,7 @@
     (drop)="handleDrop($event, node);" [ngClass]="getStyle(node)">
     <button mat-icon-button disabled></button>
     <span class="checklist-leaf-node" draggable="true" (dragstart)="handleDragStart($event, node);">
+      <img [src]="getImageByType(node.type)">
       <span class="nodeContent" [ngClass]="{'drag-start': dragNode === node}">
         {{node.name}}
       </span>
@@ -23,7 +24,8 @@
       </mat-icon>
     </button>
     <span class="checklist-leaf-node" draggable="true" (dragstart)="handleDragStart($event, node);">
-      <span class="nodeContent" [ngClass]="{'drag-start': dragNode===node}">
+      <img [src]="getImageByType(node.type)">
+      <span class="nodeContent" [ngClass]="{'drag-start': dragNode === node}">
         {{node.name}}
       </span>
     </span>

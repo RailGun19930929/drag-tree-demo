@@ -105,6 +105,8 @@ export class TreeDemoComponent implements OnInit {
         ? existingNode
         : {} as FlatTree;
     flatNode.name = node.name;
+    flatNode.type = node.type;
+    flatNode.guid = node.guid;
     flatNode.level = level;
     flatNode.expandable = node.children && node.children.length > 0 || false;
     this.flatNodeMap.set(flatNode, node);
@@ -241,4 +243,25 @@ export class TreeDemoComponent implements OnInit {
     this.treeService.deleteItem(this.flatNodeMap.get(node)!);
   }
 
+  getImageByType(type: number): string {
+    let imagePath = '';
+    switch (type) {
+      case 1:
+        imagePath = '/assets/nodeIcon/concept.png';
+        break;
+      case 2:
+        imagePath = '/assets/nodeIcon/main_concept.png';
+        break;
+      case 3:
+        imagePath = '/assets/nodeIcon/function.png';
+        break;
+      case 10:
+        imagePath = '/assets/nodeIcon/folder.png';
+        break;
+      default:
+        break;
+    }
+
+    return imagePath;
+  }
 }
