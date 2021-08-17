@@ -56,7 +56,7 @@ export class TreeEditDialogComponent implements OnInit {
 
   ok(): void {
     if (this.form.valid) {
-      const newData: FlatTree = Object.assign(this.data, this.form.value);
+      const newData: FlatTree = Object.assign({} as FlatTree ,this.data, this.form.value);
       console.log(newData);
       this.dialogRef.close(newData);
     }

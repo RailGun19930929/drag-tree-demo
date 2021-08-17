@@ -9,6 +9,9 @@
         {{node.name}}
       </span>
     </span>
+    <button mat-icon-button (click)="addNewItem(node)">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
     <button mat-icon-button (click)="deleteItem(node)">
       <mat-icon>delete_outline</mat-icon>
     </button>
@@ -30,6 +33,9 @@
     </span>
     <button mat-icon-button (click)="addNewItem(node)">
       <mat-icon>add_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button (click)="deleteItem(node)" *ngIf="node.level !== 0">
+      <mat-icon>delete_outline</mat-icon>
     </button>
   </mat-tree-node>
 </mat-tree>
