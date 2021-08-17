@@ -1,3 +1,4 @@
+import { FlatTree } from './../interface/tree';
 import { RawTreeData } from './../interface/raw-tree-data';
 import { Guid } from "guid-typescript";
 import { BehaviorSubject } from 'rxjs';
@@ -184,5 +185,29 @@ export class TreeService {
         }
       });
     }
+  }
+
+  updateNode(node: FlatTree): void {
+    // find node
+    const currentNode = this.findNodeByGuid(this.data, node.guid);
+    console.log('currentNode', currentNode, this.data);
+    if (currentNode) {
+      currentNode.name = node.name;
+      currentNode.type = node.type;
+      this.dataChangeSubject$.next(this.data);
+    }
+  }
+
+  findNodeByGuid(tree: Tree[] ,guid: string): Tree | null {
+    let node = null;
+    for (let item of tree) {
+      if (item.guid === guid) {
+        node = item;
+        break;
+      } else if (item.children) {
+        node = this.findNodeByGuid(item.children, guid);
+      }
+    }
+    return node;
   }
 }

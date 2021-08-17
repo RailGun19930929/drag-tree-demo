@@ -276,6 +276,7 @@ export class TreeDemoComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe(result => {
         console.log('The dialog was closed', result);
+        this.treeService.updateNode(result);
       });
 
   }
