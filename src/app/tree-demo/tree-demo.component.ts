@@ -1,3 +1,4 @@
+import { TreeEditDialogComponent } from './tree-edit-dialog/tree-edit-dialog.component';
 import { RawTreeData } from './../interface/raw-tree-data';
 import { TreeService } from './../service/tree.service';
 import { FlatTree, Tree } from './../interface/tree';
@@ -6,6 +7,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './tree-demo.component.html',
@@ -46,6 +48,7 @@ export class TreeDemoComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -263,5 +266,17 @@ export class TreeDemoComponent implements OnInit {
     }
 
     return imagePath;
+  }
+
+  openEditDialog(data: FlatTree): void {
+    console.log('openEditDialog', data);
+    const dialogRef: MatDialogRef<TreeEditDialogComponent, any> = this.dialog.open(TreeEditDialogComponent, {
+      data,
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        console.log('The dialog was closed');
+      });
+
   }
 }

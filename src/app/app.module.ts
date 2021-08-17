@@ -7,11 +7,13 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TreeDemoComponent } from './tree-demo/tree-demo.component';
 import { HttpClientModule } from '@angular/common/http';
+import { TreeEditDialogComponent } from './tree-demo/tree-edit-dialog/tree-edit-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TreeDemoComponent
+    TreeDemoComponent,
+    TreeEditDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -5,7 +5,7 @@
     <button mat-icon-button disabled></button>
     <span class="checklist-leaf-node" draggable="true" (dragstart)="handleDragStart($event, node);">
       <img [src]="getImageByType(node.type)">
-      <span class="nodeContent" [ngClass]="{'drag-start': dragNode === node}">
+      <span class="nodeContent" [ngClass]="{'drag-start': dragNode === node}" (dblclick)="openEditDialog(node)">
         {{node.name}}
       </span>
     </span>
@@ -14,18 +14,17 @@
     </button>
   </mat-tree-node>
 
-
   <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding
     (dragover)="handleDragOver($event, node);" (dragend)="handleDragEnd($event, node);"
     (drop)="handleDrop($event, node);" [ngClass]="getStyle(node)">
     <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
-      <mat-icon class="mat-icon-rtl-mirror">
-        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+      <mat-icon class="material-icons mat-icon-no-color">
+        {{treeControl.isExpanded(node) ? 'indeterminate_check_box' : 'add_box'}}
       </mat-icon>
     </button>
     <span class="checklist-leaf-node" draggable="true" (dragstart)="handleDragStart($event, node);">
       <img [src]="getImageByType(node.type)">
-      <span class="nodeContent" [ngClass]="{'drag-start': dragNode === node}">
+      <span class="nodeContent" [ngClass]="{'drag-start': dragNode === node}" (dblclick)="openEditDialog(node)">
         {{node.name}}
       </span>
     </span>
