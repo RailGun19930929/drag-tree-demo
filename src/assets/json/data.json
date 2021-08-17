@@ -1,0 +1,122 @@
+[
+  {
+    "NodeGuid": "55eb7bae-7d71-b144-8039-fada74ad1bd2",
+    "NodeName": "Map",
+    "ParentGuid": null,
+    "ServiceType": 10
+  },
+  {
+    "NodeGuid": "29405497-e536-4f97-af26-443ce4d01d7d",
+    "NodeName": "Ontology",
+    "ParentGuid": "55eb7bae-7d71-b144-8039-fada74ad1bd2",
+    "ServiceType": 10
+  },
+  {
+    "NodeGuid": "189d1569-64e0-4b63-bd16-d1bf6e895aa0",
+    "NodeName": "保險",
+    "ParentGuid": "29405497-e536-4f97-af26-443ce4d01d7d",
+    "ServiceType": 2
+  },
+  {
+    "NodeGuid": "41c598bd-f9df-4bc4-a28f-1e6358982043",
+    "NodeName": "電影",
+    "ParentGuid": "29405497-e536-4f97-af26-443ce4d01d7d",
+    "ServiceType": 2
+  },
+  {
+    "NodeGuid": "5f1e8ff4-c239-4991-a89f-7ff2610f84c1",
+    "NodeName": "實驗區",
+    "ParentGuid": "55eb7bae-7d71-b144-8039-fada74ad1bd2",
+    "ServiceType": 10
+  },
+  {
+    "NodeGuid": "c46472c5-2dcd-4ef9-a976-138ab30b4054",
+    "NodeName": "CATEGORY",
+    "ParentGuid": "189d1569-64e0-4b63-bd16-d1bf6e895aa0",
+    "ServiceType": 3
+  },
+  {
+    "NodeGuid": "4c86f0b8-a621-4fbf-b313-845bcd26fb17",
+    "NodeName": "解約",
+    "ParentGuid": "75ef6040-b662-407c-abbf-0c92380ccdc7",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "e20f0357-6d82-4332-8c15-841ae7b25bcb",
+    "NodeName": "意外險",
+    "ParentGuid": "c46472c5-2dcd-4ef9-a976-138ab30b4054",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "7eb171f8-10b2-4989-92ed-25dc581e176d",
+    "NodeName": "繳款期別",
+    "ParentGuid": "0aa17780-04c1-4e5e-8501-618b02a751f2",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "21add9b9-b465-4618-95e0-906f6ab40d12",
+    "NodeName": "幣別",
+    "ParentGuid": "0aa17780-04c1-4e5e-8501-618b02a751f2",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "9cec0671-70f1-40b5-aa55-17f991caaef0",
+    "NodeName": "台幣",
+    "ParentGuid": "21add9b9-b465-4618-95e0-906f6ab40d12",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "cdafab5c-f1d3-411f-9587-9ca0c55ba61f",
+    "NodeName": "澳幣",
+    "ParentGuid": "21add9b9-b465-4618-95e0-906f6ab40d12",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "d5ef1318-114b-49c2-9bbe-2d64bd6de846",
+    "NodeName": "美金",
+    "ParentGuid": "21add9b9-b465-4618-95e0-906f6ab40d12",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "a51fa3d5-9b53-464f-8a1f-cb2483365044",
+    "NodeName": "壽險",
+    "ParentGuid": "c46472c5-2dcd-4ef9-a976-138ab30b4054",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "a51fa3d5-9b53-464f-8a1f-cb2483365044",
+    "NodeName": "年金險",
+    "ParentGuid": "c46472c5-2dcd-4ef9-a976-138ab30b4054",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "35d22e74-5ea9-4e93-b29d-233438f18545",
+    "NodeName": "購買",
+    "ParentGuid": "75ef6040-b662-407c-abbf-0c92380ccdc7",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "93ddd931-60dc-4500-8f72-99c67fcc5103",
+    "NodeName": "躉繳",
+    "ParentGuid": "7eb171f8-10b2-4989-92ed-25dc581e176d",
+    "ServiceType": 1
+  },
+  {
+    "NodeGuid": "0aa17780-04c1-4e5e-8501-618b02a751f2",
+    "NodeName": "PROPERTY",
+    "ParentGuid": "189d1569-64e0-4b63-bd16-d1bf6e895aa0",
+    "ServiceType": 3
+  },
+  {
+    "NodeGuid": "75ef6040-b662-407c-abbf-0c92380ccdc7",
+    "NodeName": "EVENT",
+    "ParentGuid": "189d1569-64e0-4b63-bd16-d1bf6e895aa0",
+    "ServiceType": 3
+  },
+  {
+    "NodeGuid": "3a3a5def-dfdb-4294-bab1-95537afb853d",
+    "NodeName": "六年",
+    "ParentGuid": "7eb171f8-10b2-4989-92ed-25dc581e176d",
+    "ServiceType": 1
+  }
+]
