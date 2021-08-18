@@ -76,7 +76,7 @@ export class TreeDemoComponent implements OnInit {
       this.dataSource.data = data || [];
     });
     // 取得assets的測試用json
-    this.http.get<RawTreeData[]>('/assets/json/data.json')
+    this.http.get<RawTreeData[]>('assets/json/data.json')
       .subscribe({
         next: (res) => {
           console.log('data', res);
