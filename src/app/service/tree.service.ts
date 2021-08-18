@@ -203,9 +203,11 @@ export class TreeService {
     for (let item of tree) {
       if (item.guid === guid) {
         node = item;
-        break;
       } else if (item.children) {
         node = this.findNodeByGuid(item.children, guid);
+      }
+      if (node && node.guid === guid) {
+        break;
       }
     }
     return node;
