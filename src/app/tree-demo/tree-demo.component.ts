@@ -253,16 +253,16 @@ export class TreeDemoComponent implements OnInit {
     let imagePath = '';
     switch (type) {
       case 1:
-        imagePath = '/assets/nodeIcon/concept.png';
+        imagePath = 'assets/nodeIcon/concept.png';
         break;
       case 2:
-        imagePath = '/assets/nodeIcon/main_concept.png';
+        imagePath = 'assets/nodeIcon/main_concept.png';
         break;
       case 3:
-        imagePath = '/assets/nodeIcon/function.png';
+        imagePath = 'assets/nodeIcon/function.png';
         break;
       case 10:
-        imagePath = '/assets/nodeIcon/folder.png';
+        imagePath = 'assets/nodeIcon/folder.png';
         break;
       default:
         break;
