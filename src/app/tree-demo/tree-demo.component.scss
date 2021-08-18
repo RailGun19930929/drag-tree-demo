@@ -21,3 +21,29 @@
     background-color: #1565c0;
     color:honeydew;
 }
+
+.mat-tree-node {
+  min-height: auto;
+}
+
+.img-size {
+  height: 16px;
+  width: 16px;
+}
+
+.select-node {
+  background-color: yellow;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+

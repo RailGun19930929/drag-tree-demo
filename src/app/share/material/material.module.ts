@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 // import { } from '@angular/material/';
 // cdk
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -33,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatSelectModule,
     A11yModule,
+    MatTableModule,
   ],
 })
 export class MaterialModule { }

@@ -15,6 +15,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 })
 export class TreeDemoComponent implements OnInit {
 
+  currentSelectNode: FlatTree | null = null;
+
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<FlatTree, Tree>();
 
@@ -144,10 +146,11 @@ export class TreeDemoComponent implements OnInit {
   }
 
   // /** Select the category so we can insert the new item. */
-  addNewItem(node: FlatTree, type: number = 1) {
+  addNewItem(node: FlatTree, type: number = 1): Tree {
     const parentNode = this.flatNodeMap.get(node);
-    this.treeService.insertItem(parentNode!, 'NEW NODE', type);
+    const tree = this.treeService.insertItem(parentNode!, 'NEW NODE', type);
     this.treeControl.expand(node);
+    return tree;
   }
 
   // /** Save the node to database */
@@ -268,6 +271,22 @@ export class TreeDemoComponent implements OnInit {
     return imagePath;
   }
 
+  openCreateDialog(node: FlatTree): void {
+    const tree = this.addNewItem(node);
+    const data = this.transformer(tree, node.level + 1);
+    console.log('openCreateDialog', data);
+    const dialogRef: MatDialogRef<TreeEditDialogComponent, any> = this.dialog.open(TreeEditDialogComponent, {
+      data,
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        console.log('The dialog was closed', result);
+        if (result) {
+          this.treeService.updateNode(result);
+        }
+      });
+  }
+
   openEditDialog(data: FlatTree): void {
     console.log('openEditDialog', data);
     const dialogRef: MatDialogRef<TreeEditDialogComponent, any> = this.dialog.open(TreeEditDialogComponent, {
@@ -281,5 +300,9 @@ export class TreeDemoComponent implements OnInit {
         }
       });
 
+  }
+
+  selectNode(node: FlatTree): void {
+    this.currentSelectNode = node;
   }
 }
