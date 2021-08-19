@@ -17,6 +17,8 @@ export class TreeDemoComponent implements OnInit {
 
   currentSelectNode: FlatTree | null = null;
 
+  currentTempTree: Tree | null = null;
+
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<FlatTree, Tree>();
 
@@ -165,6 +167,7 @@ export class TreeDemoComponent implements OnInit {
     //event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
     this.dragNode = node;
     this.treeControl.collapse(node);
+    this.currentSelectNode = null;
   }
 
   handleDragOver(event: any, node: any) {
@@ -273,13 +276,14 @@ export class TreeDemoComponent implements OnInit {
 
   openCreateDialog(node: FlatTree): void {
     const tree = this.addNewItem(node);
+    //
     const data = this.transformer(tree, node.level + 1);
     console.log('openCreateDialog', data);
     const dialogRef: MatDialogRef<TreeEditDialogComponent, any> = this.dialog.open(TreeEditDialogComponent, {
       data,
     });
     dialogRef.afterClosed()
-      .subscribe(result => {
+      .subscribe((result: FlatTree) => {
         console.log('The dialog was closed', result);
         if (result) {
           this.treeService.updateNode(result);
@@ -293,7 +297,7 @@ export class TreeDemoComponent implements OnInit {
       data,
     });
     dialogRef.afterClosed()
-      .subscribe(result => {
+      .subscribe((result: FlatTree) => {
         console.log('The dialog was closed', result);
         if (result) {
           this.treeService.updateNode(result);
@@ -304,5 +308,33 @@ export class TreeDemoComponent implements OnInit {
 
   selectNode(node: FlatTree): void {
     this.currentSelectNode = node;
+  }
+
+  copyItem(node: FlatTree): void {
+    this.currentTempTree = null;
+    const cutTree = this.flatNodeMap.get(node);
+    if (cutTree) {
+      this.currentTempTree = this.treeService.copyPasteItem(cutTree, {} as Tree);
+      console.log(this.currentTempTree);
+    }
+  }
+
+  cutItem(node: FlatTree): void {
+    this.currentTempTree = null;
+    const cutTree = this.flatNodeMap.get(node);
+    if (cutTree) {
+      this.currentTempTree = this.treeService.copyPasteItem(cutTree, {} as Tree);
+      this.deleteItem(node);
+      this.currentSelectNode = null;
+      console.log(this.currentTempTree);
+    }
+  }
+
+  pasteItem(node: FlatTree): void {
+    const tree = this.flatNodeMap.get(node);
+    if (tree) {
+      this.treeService.copyPasteItem(this.currentTempTree!, tree);
+      this.treeControl.expand(node);
+    }
   }
 }

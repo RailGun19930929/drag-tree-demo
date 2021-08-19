@@ -198,7 +198,7 @@ export class TreeService {
     }
   }
 
-  findNodeByGuid(tree: Tree[] ,guid: string): Tree | null {
+  findNodeByGuid(tree: Tree[], guid: string): Tree | null {
     let node = null;
     for (let item of tree) {
       if (item.guid === guid) {
