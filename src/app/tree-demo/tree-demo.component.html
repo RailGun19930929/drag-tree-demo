@@ -23,6 +23,10 @@
     <button mat-raised-button color="primary" (click)="pasteItem(currentSelectNode!)"
       [disabled]="!(currentTempTree && currentSelectNode)">PASTE</button>
   </div>
+  <div class="mr-3">
+    <button mat-raised-button color="primary" (click)="toggleShowData()">
+      {{isShowing ? 'HIDE JSON' : 'SHOW JSON'}}</button>
+  </div>
 </div>
 <div class="w-screen flex flex-row">
   <div class="w-1/2">
@@ -93,4 +97,7 @@
       </tbody>
     </table>
   </div>
+</div>
+<div class="m-3" *ngIf="isShowing">
+  {{data$ | async | json}}
 </div>

@@ -8,6 +8,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './tree-demo.component.html',
@@ -49,6 +50,8 @@ export class TreeDemoComponent implements OnInit {
   dragNodeExpandOverTime: number = 0;
   dragNodeExpandOverArea: number = 0;
   treeService = new TreeService([]);
+  data$: Observable<Tree[]> = this.treeService.dataChange$;
+  isShowing = false;
 
   constructor(
     private http: HttpClient,
@@ -358,5 +361,9 @@ export class TreeDemoComponent implements OnInit {
     }
 
     return name;
+  }
+
+  toggleShowData(): void {
+    this.isShowing = !this.isShowing;
   }
 }
