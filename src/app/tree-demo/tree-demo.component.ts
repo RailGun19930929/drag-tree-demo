@@ -337,4 +337,26 @@ export class TreeDemoComponent implements OnInit {
       this.treeControl.expand(node);
     }
   }
+
+  getNameByType(type: number): string {
+    let name = '';
+    switch (type) {
+      case 1:
+        name = 'CONCEPT';
+        break;
+      case 2:
+        name = 'MAIN CONCEPT';
+        break;
+      case 3:
+        name = 'FUNCTION';
+        break;
+      case 10:
+        name = 'FOLDER';
+        break;
+      default:
+        break;
+    }
+
+    return name;
+  }
 }
